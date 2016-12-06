@@ -221,22 +221,6 @@ end
 % timestep_counter;
 % stepsof_T;
 
-[X,Y] = meshgrid(0:delta_X:length_X,0:delta_Y:length_Y);
-
-% figure(1);
-% subplot(1,2,1);
-% surf(X,Y,vorticity);
-% xlabel('X');
-% ylabel('Y');
-% title('Vorticity \zeta')
-% 
-% subplot(1,2,2);
-% surf(X,Y,stream_func);
-% xlabel('X');
-% ylabel('Y');
-% title('Stream function \psi')
-
-
 
 % %%% Step 6 (not needed as it is already part of loop)
 % %%% Recalculate stream function everywhere. because boundary stream function doesn't change in time. continuity equation
@@ -256,19 +240,6 @@ end
 
 
 
-
-
-
-%%% Increment time, rinse and repeat
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
-%%
 %%% Step 7
 %%% Calculate corresponding velocities in X and Y direction given stream function
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -277,14 +248,51 @@ v = zeros((nodes_Y), (nodes_X));
 
 for i =2: elements_Y
     for j = 2:elements_X
-        v(i,j) = (stream_func(i,j-1)-stream_func(i,j+1))/(2*delta_Y);
-        u(i,j) = (stream_func(i+1,j)-stream_func(i-1,j))/(2*delta_X);
+        v(i,j) = (stream_func(i,j-1)-stream_func(i,j+1))/(2*delta_X);
+        u(i,j) = (stream_func(i+1,j)-stream_func(i-1,j))/(2*delta_Y);
     end
 end
 
 % u(1,:) = u_top;
 
-%%
+
 %%% Step 8
 %%% Calculate corresponding Pressure in X and Y direction given stream function
 pressure = zeros((nodes_Y), (nodes_X));
+
+
+
+%%% Increment time, rinse and repeat
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%% Plotting useful information
+
+[X,Y] = meshgrid(0:delta_X:length_X,0:delta_Y:length_Y);
+
+figure(1);
+subplot(2,2,1);
+surf(X,Y,vorticity);
+xlabel('X');
+ylabel('Y');
+title('Vorticity \zeta');
+
+subplot(2,2,2);
+surf(X,Y,stream_func);
+xlabel('X');
+ylabel('Y');
+title('Stream function \psi');
+
+subplot(2,2,3);
+hold on;
+quiver(X,Y,u,v,3);
+contour(X,Y,stream_func);
+xlabel('X');
+ylabel('Y');
+title('Velocity superimposed with \psi');
+
+
+
+
+
+
