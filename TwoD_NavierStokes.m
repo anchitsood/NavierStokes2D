@@ -1,4 +1,4 @@
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Description
 
@@ -56,6 +56,7 @@ syms stream_func;
 % Specify time step and number of time steps
 delta_T = 1;
 stepsof_T = 50; % number of time steps
+
 
 % Or, specify total time and size of time step
 total_T = 50;
