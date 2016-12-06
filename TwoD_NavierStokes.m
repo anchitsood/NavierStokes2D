@@ -91,9 +91,14 @@ stepsof_T = total_T/delta_T;
 %%% use these 2 infos to define streamfunc everywhere at t = 0. define now
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-for i = 2:elements_X + 1 - 1
+for i = 2:elements_X + 1 - 1 
     for j = 2:elements_Y + 1 - 1
-        stream_func(i,j) = ((delta_Y.^2 * (stream_func(i+1, j) + stream_func(i-1, j))) + (delta_X.^2 * (stream_func(i,j+1) + stream_func(i,j-1))) + (vorticity(i,j)*delta_X.^2 * delta_Y.^2)) / (2 * (delta_Y.^2 + delta_X.^2));       
+        sum1 = (delta_Y.^2 * (stream_func(i+1, j) + stream_func(i-1, j)));
+        sum2 = (delta_X.^2 * (stream_func(i,j+1) + stream_func(i,j-1)));
+        sum3 = (vorticity(i,j)*delta_X.^2 * delta_Y.^2);
+        sum4 = sum1 + sum2 + sum3;
+        stream_func(i,j) =  sum4  / (2 * (delta_Y.^2 + delta_X.^2));       
+        %stream_func(i,j) = ((delta_Y.^2 * (stream_func(i+1, j) + stream_func(i-1, j))) + (delta_X.^2 * (stream_func(i,j+1) + stream_func(i,j-1))) + (vorticity(i,j)*delta_X.^2 * delta_Y.^2)) / (2 * (delta_Y.^2 + delta_X.^2));       
     end
 end
 
@@ -131,11 +136,17 @@ vorticity(elements_X + 1,:) = ((stream_func(elements_X + 1,:) - stream_func(elem
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-for i = 2:elements_X + 1 - 1
+for i = 2:elements_X + 1 - 1 
     for j = 2:elements_Y + 1 - 1
-        stream_func(i,j) = ((delta_Y.^2 * (stream_func(i+1, j) + stream_func(i-1, j))) + (delta_X.^2 * (stream_func(i,j+1) + stream_func(i,j-1))) + (vorticity(i,j)*delta_X.^2 * delta_Y.^2)) / (2 * (delta_Y.^2 + delta_X.^2));       
+        sum1 = (delta_Y.^2 * (stream_func(i+1, j) + stream_func(i-1, j)));
+        sum2 = (delta_X.^2 * (stream_func(i,j+1) + stream_func(i,j-1)));
+        sum3 = (vorticity(i,j)*delta_X.^2 * delta_Y.^2);
+        sum4 = sum1 + sum2 + sum3;
+        stream_func(i,j) =  sum4  / (2 * (delta_Y.^2 + delta_X.^2));       
+        %stream_func(i,j) = ((delta_Y.^2 * (stream_func(i+1, j) + stream_func(i-1, j))) + (delta_X.^2 * (stream_func(i,j+1) + stream_func(i,j-1))) + (vorticity(i,j)*delta_X.^2 * delta_Y.^2)) / (2 * (delta_Y.^2 + delta_X.^2));       
     end
 end
+
 
 
 
