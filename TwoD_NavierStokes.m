@@ -129,6 +129,57 @@ vorticity(elements_X + 1,:) = ((stream_func(elements_X + 1,:) - stream_func(elem
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+clipped_vorticity = vorticity(2:m-1,2:n-1);
+clipped_stream_func = stream_func(2:m-1,2:n-1);
+
+vort_row_diffs = zeros(m - 2,n);
+% vort_row_sums = zeros(m - 2,n);
+vort_col_diffs = zeros(m,n - 2);
+% vort_col_sums = zeros(m,n - 2);
+
+strm_row_diffs = zeros(m - 2,n);
+strm_row_sums = zeros(m - 2,n);
+strm_col_diffs = zeros(m,n - 2);
+strm_col_sums = zeros(m,n - 2);
+
+for i = 1:(m - 2)
+    vort_row_diffs(i,:) = vorticity(i + 2,:) - vorticity(i,:);
+    % vort_row_sums(i,:) = vorticity(i + 2,:) + vorticity(i,:);
+    strm_row_diffs(i,:) = stream_func(i + 2,:) - stream_func(i,:);
+    strm_row_sums(i,:) = stream_func(i + 2,:) + stream_func(i,:);
+end
+
+for j = 1:(n - 2)
+    vort_col_diffs = vorticity(:,j + 2) - vorticity(:,j);
+    % vort_col_sums = vorticity(:,j + 2) + vorticity(:,j);
+    strm_col_diffs(i,:) = stream_func(:,j + 2) - stream_func(:,j);
+    strm_col_sums(i,:) = stream_func(:,j + 2) + stream_func(:,j);
+end
+
+vort_row_diffs = vort_row_diffs(:,2:n-1);
+vort_col_diffs = vort_col_diffs(2:m-1,:);
+% vort_row_sums = vort_row_sums(:,2:n-1);
+% vort_col_sums = vort_col_sums(2:m-1,:);
+
+strm_row_diffs = vort_row_diffs(:,2:n-1);
+strm_col_diffs = vort_col_diffs(2:m-1,:);
+strm_row_sums = vort_row_sums(:,2:n-1);
+strm_col_sums = vort_col_sums(2:m-1,:);
+
+
+
+term1 = - ((strm_row_diffs .* vort_col_diffs)/(4*delta_X*delta_Y));
+term2 = ((strm_col_diffs .* vort_row_diffs)/(4*delta_X*delta_Y));
+term3 = ((((delta_Y^2)*strm_row_sums) + ((delta_X^2)*strm_col_sums) - (2*clipped_stream_func*((delta_X^2) + (delta_Y^2))))/(Reynolds_no*(delta_X^2)*(delta_Y^2)));
+
+grand_diff = term1 + term2 + term3;
+vorticity_temp = (grand_diff * delta_T) + clipped_vorticity;
+
+vorticity(2:m-1,2:n-1) = vorticity_temp;
+
+% clear clipped_vorticity clipped_stream_func vort_row_diffs vort_col_diffs strm_row_diffs strm_row_sums strm_col_diffs strm_col_sums;
+% clear term1 term2 term3 grand_diff vorticity_temp;
+
 
 
 %%% Step 6
