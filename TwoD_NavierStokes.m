@@ -35,15 +35,19 @@ delta_Y = length_Y/elements_Y;
 
 % Top wall of channel
 stream_func_top = 5; % some user defined value
+u_top = 1;
 
 % Bottom wall of channel
 stream_func_bottom = 5; % some user defined value
+u_bottom = 0;
 
 % Left wall of channel
 stream_func_left = 5; % some user defined value
+u_left = 0;
 
 % Right wall of channel
 stream_func_right = 5; % some user defined value
+u_right = 0;
 
 % Stream function overall is stored in a matrix called stream_func
 syms stream_func;
