@@ -2,10 +2,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Description
 
-% Members: 
-% Bla Bla
-% Bla
-% Bla
+%%% Contributors: 
+% Deepak Kakad
+% Apurva Modak
+% Anchit Sood
+
+%%% What does this code do?
+
+% Bla bla bla
 
 
 %% Begin code
