@@ -77,6 +77,12 @@ stepsof_T = total_T/delta_T;
 %%% in parameteres
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+stream_func = zeros(elements_X+1,elements_Y+1);
+
+stream_func(1, :) = stream_func_top;  
+stream_func(:, 1) = stream_func_left;
+stream_func(:, (elements_X + 1)) = stream_func_right;
+stream_func((elements_Y + 1), :) = stream_func_bottom; 
 
 
 
@@ -84,7 +90,7 @@ stepsof_T = total_T/delta_T;
 %%% Start with vorticity defined everywhere (how? assume zero at all points for now) at t = 0. define now
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+vorticity = zeros(elements_X+1,elements_Y+1);
 
 
 %%% Step 3
@@ -210,6 +216,23 @@ end
 %%% Increment time, rinse and repeat
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%
+%%% Step 7
+%%% Calculate corresponding velocities in X and Y direction given stream function
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+u = zeros((elements_X + 1), (elements_Y + 1));
+v = zeros((elements_X + 1), (elements_Y + 1));
 
+for i =2: elements_X
+    for j = 2:elements_Y
+        u(i,j) = (stream_func(i,j+1)-stream_func(i,j-1))/2*delta_y;
+        v(i,j) = (stream_func(i-1,j)-stream_func(i+1,j))/2*delta_x;
+    end
+end
+
+%%
+%%% Step 8
+%%% Calculate corresponding Pressure in X and Y direction given stream function
+pressure = zeros((elements_X + 1), (elements_Y + 1));
 
 
