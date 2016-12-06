@@ -87,12 +87,30 @@ stepsof_T = total_T/delta_T;
 %%% use these 2 infos to define streamfunc everywhere at t = 0. define now
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+for i = 2:elements_X + 1 - 1
+    for j = 2:elements_Y + 1 - 1
+        stream_func(i,j) = ((delta_Y.^2 * (stream_func(i+1, j) + stream_func(i-1, j))) + (delta_X.^2 * (stream_func(i,j+1) + stream_func(i,j-1))) + (vorticity(i,j)*delta_X.^2 * delta_Y.^2)) / (2 * (delta_Y.^2 + delta_X.^2));       
+    end
+end
 
 
 
 %%% Step 4
 %%% Increment time, recalculate vorticity values at the wall. taylor series
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Boundary Condition for Top Wall
+vorticity(:,1) = ((stream_func(:,1) - stream_func(:,2))* 2/(delta_Y).^2) + 2*u_top/(delta_Y);
+
+%Boundary Condition for Bottom Wall
+vorticity(:,elements_Y + 1) = ((stream_func(:,elements_Y + 1) - stream_func(:,elements_y + 1 - 1))* 2/(delta_Y).^2) + 2*u_bottom/(delta_Y);
+
+%Boundary Condition for Left Wall
+vorticity(1,:) = ((stream_func(1,:) - stream_func(2,:))* 2/(delta_X).^2) + 2*u_left/(delta_X);
+
+%Boundary Condition for Right Wall
+vorticity(elements_X + 1,:) = ((stream_func(elements_X + 1,:) - stream_func(elements_X+1-1,:))* 2/(delta_X).^2) + 2*u_right/(delta_X);
+
 
 
 
@@ -109,6 +127,11 @@ stepsof_T = total_T/delta_T;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+for i = 2:elements_X + 1 - 1
+    for j = 2:elements_Y + 1 - 1
+        stream_func(i,j) = ((delta_Y.^2 * (stream_func(i+1, j) + stream_func(i-1, j))) + (delta_X.^2 * (stream_func(i,j+1) + stream_func(i,j-1))) + (vorticity(i,j)*delta_X.^2 * delta_Y.^2)) / (2 * (delta_Y.^2 + delta_X.^2));       
+    end
+end
 
 
 
