@@ -90,6 +90,11 @@ stepsof_T = total_T/delta_T;
 
 
 
+
+
+
+
+for timestep_count = 1:stepsof_T
 %%% Step 4
 %%% Increment time, recalculate vorticity values at the wall. taylor series
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -117,7 +122,7 @@ stepsof_T = total_T/delta_T;
 
 
 
-
+end
 %%% Increment time, rinse and repeat
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
